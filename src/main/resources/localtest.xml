@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="SyngentaAutomation">
+	<listeners>
+	</listeners>
+
+	<test name="SyngentaAutomation">
+		<groups>
+			<run>
+			</run>
+		</groups>
+		<classes>
+			
+		<!-- Lead test suites -->
+			<class name="com.syngenta.sylk.LeadProcess.LeadProcessWorkflowUsingAccessionNoTest" />
+			<class name="com.syngenta.sylk.LeadProcess.LeadProcessWorkflowUsingSeqDataTest" />
+		
+		<!--  tabbed UI RNAi -->
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckDeleteButtonDisabledRNAiNominatedToConstructTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckEvidenceMagnifyingGlassVerticallyAlignedTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckEditButtonDisabledInDetailTabTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckEditButtonEnabledInDetailTabTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckCreatedByAndCreatedDateInDetailTabTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckDeleteButtonDisabledRNAiHasEvidenceTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckConstructTabAndVerifyEightColumnsTest" />
+			<class name="com.syngenta.sylk.rnai.extendtabbedui.CheckEditButtonEnabledInSequenceTabInRNAiTest" />
+			
+		<!-- Genetic Feature test suites -->
+			<class name="com.syngenta.sylk.GeneticFeatures.test.AddGeneticFeatureUsingNucleotideTest" />
+			<class name="com.syngenta.sylk.GeneticFeatures.test.AddGeneticFeatureUsingProteinTest" />		
+			<class name="com.syngenta.sylk.GeneticFeatures.test.AddGeneticFeatureUsingNewSequanceTest" />
+			<class name="com.syngenta.sylk.GeneticFeatures.test.AddGeneticFeatureUsingAccessionNumberTest" />
+			
+		<!-- RNAi trigger -->
+			<class name="com.syngenta.sylk.gf.extendtabbedui.CheckRNAiTabInGFTest" />
+		
+		</classes>
+	</test>
+</suite> 
