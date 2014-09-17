@@ -22,8 +22,12 @@ public class AutomationWebDriver {
 				|| StringUtils.equalsIgnoreCase(
 						StringUtils.deleteWhitespace(this.browser),
 						"internetexplorer")) {
-			System.setProperty("webdriver.ie.driver", this.getClass()
-					.getResource("/IEDriverServer.exe").getPath());
+						
+			// Went back to hard code			
+			//System.setProperty("webdriver.ie.driver", this.getClass()
+			//		.getResource("/IEDriverServer.exe").getPath());
+			System.setProperty("webdriver.ie.driver","C:\\Program Files (x86)\\Jenkins\\workspace\\MvnSylk\\AutoTest\\target\\classes\\IEDriverServer.exe");
+					
 
 			// WebDriver driver;
 			// DesiredCapabilities caps =
