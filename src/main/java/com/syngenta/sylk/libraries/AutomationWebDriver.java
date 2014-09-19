@@ -23,10 +23,10 @@ public class AutomationWebDriver {
 						StringUtils.deleteWhitespace(this.browser),
 						"internetexplorer")) {
 						
-			// Went back to hard code			
-			//System.setProperty("webdriver.ie.driver", this.getClass()
-			//		.getResource("/IEDriverServer.exe").getPath());
-			System.setProperty("webdriver.ie.driver","C:\\Program Files (x86)\\Jenkins\\workspace\\MvnSylk\\AutoTest\\target\\classes\\IEDriverServer.exe");
+			// Went back to var code			
+			System.setProperty("webdriver.ie.driver", this.getClass()
+					.getResource("/IEDriverServer.exe").getPath());
+			//System.setProperty("webdriver.ie.driver","C:\\Program Files (x86)\\Jenkins\\workspace\\MvnSylk\\AutoTest\\target\\classes\\IEDriverServer.exe");
 					
 
 			// WebDriver driver;
