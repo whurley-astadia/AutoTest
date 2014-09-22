@@ -9,8 +9,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import com.syngenta.sylk.libraries.PageTitles;
 import com.syngenta.sylk.main.pages.BasePage;
 import com.syngenta.sylk.main.pages.MenuPage;
+import com.syngenta.sylk.menu_add.pages.AddNewROIPage;
 import com.syngenta.sylk.menu_add.pages.GeneticFeaturePage;
 import com.syngenta.sylk.menu_add.pages.RNAiTriggerDetailsPage;
 
@@ -190,7 +192,7 @@ public class SearchSylkPage extends MenuPage {
 		return name;
 	}
 
-	public BasePage selectThisRNAiIfExits(String rnaiTriggerName, String user) {
+	public BasePage selectThisTriggerFromSearchResult(String Name) {
 
 		int totalcount = this.getTotalResultCount();
 		BasePage page = null;
@@ -209,13 +211,30 @@ public class SearchSylkPage extends MenuPage {
 
 			if (span != null) {
 				String linkText = span.getText();
-				if (StringUtils.containsIgnoreCase(linkText, rnaiTriggerName)) {
+
+				if (StringUtils.containsIgnoreCase(linkText, Name)) {
 					span.click();
 					this.waitForPageToLoad();
 					this.waitForAjax();
-					page = new RNAiTriggerDetailsPage(this.driver);
-					PageFactory.initElements(this.driver, page);
-					break;
+					if (StringUtils.equalsIgnoreCase(this.getPageTitle(),
+							PageTitles.rnai_trigger_details_page_title_page)) {
+						page = new RNAiTriggerDetailsPage(this.driver);
+						PageFactory.initElements(this.driver, page);
+					} else if (StringUtils.equalsIgnoreCase(
+							this.getPageTitle(),
+							PageTitles.add_New_ROI_Page_title)) {
+						page = new AddNewROIPage(this.driver);
+						PageFactory.initElements(this.driver, page);
+						break;
+
+					} else if (StringUtils.equalsIgnoreCase(
+							this.getPageTitle(),
+							PageTitles.genetic_feature_page_title)) {
+						page = new GeneticFeaturePage(this.driver);
+						PageFactory.initElements(this.driver, page);
+						break;
+
+					}
 				}
 			}
 		}
@@ -351,4 +370,57 @@ public class SearchSylkPage extends MenuPage {
 		return page;
 	}
 
+	public BasePage clickAndOpenAGFWithoutLeadInfo() {
+		int totalcount = this.getTotalResultCount();
+		if (totalcount == 0) {
+			SearchSylkPage spage = new SearchSylkPage(this.driver);
+			PageFactory.initElements(this.driver, spage);
+			return spage;
+		}
+		GeneticFeaturePage page = null;
+		for (int a = 0; a < totalcount; a++) {
+			WebElement span = this.driver.findElement(By.cssSelector("div#hit_"
+					+ a + " a.pointer.f12.underline span"));
+			span.click();
+			GeneticFeaturePage gfPage = new GeneticFeaturePage(this.driver);
+			PageFactory.initElements(this.driver, gfPage);
+			int count = gfPage.getLeadInfoCountOnTab();
+			if (count != 0) {
+				this.browserBack();
+			} else {
+				page = gfPage;
+				PageFactory.initElements(this.driver, page);
+				break;
+			}
+		}
+
+		return page;
+	}
+
+	public BasePage clickAndOpenAGFWithLeadInfo() {
+		int totalcount = this.getTotalResultCount();
+		if (totalcount == 0) {
+			SearchSylkPage spage = new SearchSylkPage(this.driver);
+			PageFactory.initElements(this.driver, spage);
+			return spage;
+		}
+		GeneticFeaturePage page = null;
+		for (int a = 0; a < totalcount; a++) {
+			WebElement span = this.driver.findElement(By.cssSelector("div#hit_"
+					+ a + " a.pointer.f12.underline span"));
+			span.click();
+			GeneticFeaturePage gfPage = new GeneticFeaturePage(this.driver);
+			PageFactory.initElements(this.driver, gfPage);
+			int count = gfPage.getLeadInfoCountOnTab();
+			if (count == 0) {
+				this.browserBack();
+			} else {
+				page = gfPage;
+				PageFactory.initElements(this.driver, page);
+				break;
+			}
+		}
+
+		return page;
+	}
 }

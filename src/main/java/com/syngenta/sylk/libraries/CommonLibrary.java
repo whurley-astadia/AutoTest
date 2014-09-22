@@ -229,4 +229,16 @@ public class CommonLibrary {
 		return search.isThereAClickableGFLink();
 	}
 
+	public GeneticFeaturePage searchAndSelectThisGF(HomePage homepage,
+			String user, String gfName) {
+		SearchSylkPage search = homepage.goToGFRNAiTriggerROIpromoter();
+		search.selectAddedBy(user);
+		search.selectView("50");
+		search.selectType("Genetic Feature");
+		search = search.clickSearch();
+
+		return ((GeneticFeaturePage) search
+				.selectThisTriggerFromSearchResult(gfName));
+	}
+
 }

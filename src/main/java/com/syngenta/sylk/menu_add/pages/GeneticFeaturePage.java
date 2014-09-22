@@ -538,6 +538,19 @@ public class GeneticFeaturePage extends MenuPage {
 			return Integer.parseInt(text);
 		}
 	}
+
+	public int getRegulatoryCheckCountOnTab() {
+		WebElement reg = this.driver.findElement(By
+				.cssSelector("ul#sequence_0_tabs li:nth-child(4)"));
+		WebElement regATag = reg.findElement(By.tagName("a"));
+		String text = regATag.getText();
+		text = StringUtils.substringBetween(text, "(", ")");
+		if (StringUtils.isBlank(text)) {
+			return 0;
+		} else {
+			return Integer.parseInt(text);
+		}
+	}
 	public RelatedLiteraturePage selectEvidence(String selection) {
 		// this.selectEvidence.click();
 		List<WebElement> elements = this.selectEvidence.findElements(By
@@ -766,6 +779,22 @@ public class GeneticFeaturePage extends MenuPage {
 		return page;
 	}
 
+	public GeneticFeaturePage clickOnROITab() {
+		WebElement evdTab = this.driver.findElement(By
+				.cssSelector("ul#geneticFeature_tabs li:nth-child(5)"));
+		if (!StringUtils.containsIgnoreCase(evdTab.getAttribute("class"),
+				"ui-state-active")) {
+			WebElement evi = evdTab.findElement(By.tagName("a"));
+			evi.click();
+			this.waitForPageToLoad();
+			this.waitForAjax();
+			this.waitForEvidenceSequenceToLoad();
+		}
+		GeneticFeaturePage page = new GeneticFeaturePage(this.driver);
+		PageFactory.initElements(this.driver, page);
+		return page;
+	}
+
 	public HashMap<String, String> getAllColumnHeadersInRNAITab() {
 		HashMap<String, String> columns = new HashMap<String, String>();
 		WebElement mainDiv = this.driver.findElement(By
@@ -795,5 +824,80 @@ public class GeneticFeaturePage extends MenuPage {
 		GeneticFeaturePage page = new GeneticFeaturePage(this.driver);
 		PageFactory.initElements(this.driver, page);
 		return page;
+	}
+
+	public GeneticFeaturePage clickOnRegulatoryCheckTab() {
+		WebElement regTab = this.driver.findElement(By
+				.cssSelector("ul#sequence_0_tabs li:nth-child(4)"));
+		if (!StringUtils.containsIgnoreCase(regTab.getAttribute("class"),
+				"ui-state-active")) {
+			WebElement evi = regTab.findElement(By.tagName("a"));
+			evi.click();
+			this.waitForPageToLoad();
+			this.waitForAjax();
+			this.waitForRegulatoryCheckToLoad();
+		}
+
+		GeneticFeaturePage page = new GeneticFeaturePage(this.driver);
+		PageFactory.initElements(this.driver, page);
+		return page;
+	}
+
+	private void waitForRegulatoryCheckToLoad() {
+		try {
+			if (this.getRegulatoryCheckCountOnTab() > 0) {
+				this.waitForWebElement(By.cssSelector("form#submitForm"));
+			} else {
+				new CommonLibrary().slowDown();
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	public String getRegulatoryCheckTabMessage() {
+		WebElement form = this.driver.findElement(By
+				.cssSelector("div#ui-tabs-9 form#submitForm"));
+		String message = null;
+		try {
+			WebElement msgDiv = form.findElement(By
+					.cssSelector("table div.info"));
+			message = msgDiv.getText();
+		} catch (Exception e) {
+		}
+
+		return message;
+	}
+
+	public boolean isCheckBoxRecommendedRegulatoryChecked() {
+		WebElement span = this.driver.findElement(By
+				.cssSelector("span#ro_recommend_regulatory_check"));
+		WebElement input = span.findElement(By.tagName("input"));
+		String value = input.getAttribute("value");
+		if (StringUtils.equalsIgnoreCase(value, "on")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public String getAllergenSimilarityInRegulatory() {
+		WebElement span = this.driver.findElement(By
+				.cssSelector("span#ro_allergen_similarity"));
+		String value = span.getText();
+		return value;
+	}
+
+	public String getConsensesSiteInRegulatory() {
+		WebElement span = this.driver.findElement(By
+				.cssSelector("span#ro_glycosylation_consensus_sites"));
+		String value = span.getText();
+		return value;
+	}
+
+	public String getAllergenSearchDateInRegulatory() {
+		WebElement span = this.driver.findElement(By
+				.cssSelector("span#ro_allergen_search_date"));
+		String value = span.getText();
+		return value;
 	}
 }

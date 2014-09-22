@@ -36,6 +36,10 @@
 		<!-- RNAi trigger -->
 			<class name="com.syngenta.sylk.gf.extendtabbedui.CheckRNAiTabInGFTest" />
 		
+		<!-- Regulatory Info -->
+			<class name="com.syngenta.sylk.regulatoryinfo.extendedui.CheckRegulatoryInfoMessageInTabTest" />
+			<class name="com.syngenta.sylk.regulatoryinfo.extendedui.CheckRegulatoryInfoTabWithLeadInfoTest" />
+		
 		</classes>
 	</test>
 </suite> 

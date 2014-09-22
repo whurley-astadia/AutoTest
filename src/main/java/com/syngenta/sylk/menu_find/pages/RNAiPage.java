@@ -15,8 +15,11 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.syngenta.sylk.libraries.CommonLibrary;
+import com.syngenta.sylk.main.pages.BasePage;
+import com.syngenta.sylk.main.pages.HomePage;
 import com.syngenta.sylk.main.pages.MenuPage;
 import com.syngenta.sylk.menu_add.pages.LiteratureSearchPage;
+import com.syngenta.sylk.menu_add.pages.RNAiTriggerDetailsPage;
 import com.syngenta.sylk.menu_add.pages.ViewLiteratureEvidenceDetailsRNAI;
 
 public class RNAiPage extends MenuPage {
@@ -469,6 +472,47 @@ public class RNAiPage extends MenuPage {
 				.cssSelector("input[value='Delete This RNAi Trigger']"));
 		String toolTip = button.getAttribute("title");
 		return toolTip;
+	}
+
+	public void deleteThisRNAi(HomePage homepage, String rnaiTriggerName,
+			String user) {
+		SearchSylkPage search = homepage.goToGFRNAiTriggerROIpromoter();
+		RNAiTriggerDetailsPage rnaiTrigger = null;
+		search.selectAddedBy(user);
+		search.selectView("50");
+		search.selectType("RNAi");
+		search = search.clickSearch();
+		BasePage page = search
+				.selectThisTriggerFromSearchResult(rnaiTriggerName);
+		if (page instanceof SearchSylkPage) {
+			((SearchSylkPage) page).gotoHomePage();
+		} else if (page instanceof RNAiTriggerDetailsPage) {
+			rnaiTrigger = (RNAiTriggerDetailsPage) page;
+			rnaiTrigger = rnaiTrigger.clickOnDetailTab();
+			rnaiTrigger = rnaiTrigger.deleteTargetGene();
+			rnaiTrigger = rnaiTrigger.clickOnDeleteRNAiTrigger();
+			rnaiTrigger.gotoHomePage();
+		}
+	}
+
+	public void deleteThisRoi(HomePage homepage, String roiName, String user) {
+		SearchSylkPage search = homepage.goToGFRNAiTriggerROIpromoter();
+		RNAiTriggerDetailsPage rnaiTrigger = null;
+		search.selectAddedBy(user);
+		search.selectView("50");
+		search.selectType("ROI");
+		search = search.clickSearch();
+		BasePage page = search.selectThisTriggerFromSearchResult(roiName);
+		if (page instanceof SearchSylkPage) {
+			((SearchSylkPage) page).gotoHomePage();
+		} else if (page instanceof RNAiTriggerDetailsPage) {
+			rnaiTrigger = (RNAiTriggerDetailsPage) page;
+			rnaiTrigger = rnaiTrigger.clickOnDetailTab();
+			rnaiTrigger = rnaiTrigger.deleteTargetGene();
+			rnaiTrigger = rnaiTrigger.clickOnDeleteRNAiTrigger();
+			rnaiTrigger.gotoHomePage();
+		}
+
 	}
 
 }
