@@ -70,6 +70,13 @@ public class GeneticFeaturePage extends MenuPage {
 	private WebElement clickEvidence;
 
 	@FindBy(css = "ul#sequence_0_tabs li:nth-child(2)")
+	private WebElement clickEvidenceGF;
+
+	// @FindBy(css = "ul#sequence_0_tabs li:nth-child(2)")
+	// private WebElement clickEvidenceGF;
+	//
+
+	@FindBy(css = "ul#sequence_0_tabs li:nth-child(2)")
 	private WebElement clickEvidenceSequence;
 
 	@FindBy(css = "ul#sequence_0_tabs li:nth-child(3)")
@@ -360,6 +367,7 @@ public class GeneticFeaturePage extends MenuPage {
 		}
 
 	}
+
 	public int getConstructCountOnTab() {
 
 		WebElement evi = this.driver.findElement(By
@@ -899,5 +907,57 @@ public class GeneticFeaturePage extends MenuPage {
 				.cssSelector("span#ro_allergen_search_date"));
 		String value = span.getText();
 		return value;
+	}
+
+	public int getEvidenceCountOnTabForGF() {
+
+		WebElement evi = this.clickEvidenceGF.findElement(By.tagName("a"));
+		String text = evi.getText();
+		text = StringUtils.substringBetween(text, "(", ")");
+		if (StringUtils.isBlank(text)) {
+			return 0;
+		} else {
+			return Integer.parseInt(text);
+		}
+
+	}
+
+	public GeneticFeaturePage addEvidenceInSequenceSection(
+			GeneticFeaturePage gfPage, HashMap<String, String> columns) {
+
+		gfPage.clickEvidenceSequenceTab();
+		LiteratureSearchPage litSearchPage = gfPage
+				.selectAddEvidenceSequence(columns.get("evidence"));
+		CreateLiteratureEvidenceDetailsForGeneticFeaturePage createLitPage = (CreateLiteratureEvidenceDetailsForGeneticFeaturePage) litSearchPage
+				.searchThis(columns.get("search"));
+		createLitPage.enterObservation(columns.get("observation"));
+		createLitPage.enterRationale(columns.get("rationale"));
+		PopUpAddTraitComponent popup = createLitPage.clickAddTraitComponent();
+		createLitPage = (CreateLiteratureEvidenceDetailsForGeneticFeaturePage) popup
+				.addTrait(columns.get("trait"));
+		PopUpAddSequenceAccession popupSeq = createLitPage.clickOnAddSequence();
+		createLitPage = popupSeq.addSequenceName(columns.get("sequence"));
+		gfPage = createLitPage.clickSave();
+
+		return gfPage;
+	}
+
+	private void clickEvidenceSequenceTab() {
+		WebElement evi = this.clickEvidenceSequence
+				.findElement(By.tagName("a"));
+		evi.click();
+		this.waitForPageToLoad();
+	}
+
+	public boolean isDeleteThisGFButtonEnabled() {
+		WebElement deleteButton = this.driver.findElement(By
+				.id("deleteGeneticFeatureButton"));
+		return deleteButton.isEnabled();
+	}
+
+	public String getDeleteButtonToolTip() {
+		WebElement deleteButton = this.driver.findElement(By
+				.id("deleteGeneticFeatureButton"));
+		return deleteButton.getAttribute("title");
 	}
 }

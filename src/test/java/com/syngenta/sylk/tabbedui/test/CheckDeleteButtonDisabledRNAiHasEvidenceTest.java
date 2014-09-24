@@ -86,7 +86,7 @@ public class CheckDeleteButtonDisabledRNAiHasEvidenceTest {
 		// step 3
 		this.searchSylkpage.selectAddedBy(columns.get("user"));
 
-		this.searchSylkpage.selectType("RNAi");
+		this.searchSylkpage.selectType("");
 
 		this.searchSylkpage = this.searchSylkpage.clickSearch();
 

@@ -283,6 +283,34 @@ public class SearchSylkPage extends MenuPage {
 		return page;
 	}
 
+	// open an GF from search page which has at lease one evidence
+	public BasePage clickAndOpenGFWithLiteratureEvidence() {
+		int totalcount = this.getTotalResultCount();
+		if (totalcount == 0) {
+			SearchSylkPage spage = new SearchSylkPage(this.driver);
+			PageFactory.initElements(this.driver, spage);
+			return spage;
+		}
+		GeneticFeaturePage page = null;
+		for (int a = 0; a < totalcount; a++) {
+			WebElement span = this.driver.findElement(By.cssSelector("div#hit_"
+					+ a + " a.pointer.f12.underline span"));
+			span.click();
+			GeneticFeaturePage GFpage = new GeneticFeaturePage(this.driver);
+			PageFactory.initElements(this.driver, GFpage);
+			int count = GFpage.getEvidenceCountOnTab();
+			if (count == 0) {
+				this.browserBack();
+			} else {
+				page = GFpage;
+				PageFactory.initElements(this.driver, page);
+				break;
+			}
+		}
+
+		return page;
+	}
+
 	public BasePage clickAndOpenRNAiSearch() {
 
 		int totalcount = this.getTotalResultCount();
