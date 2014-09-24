@@ -936,7 +936,7 @@ public class GeneticFeaturePage extends MenuPage {
 		createLitPage = (CreateLiteratureEvidenceDetailsForGeneticFeaturePage) popup
 				.addTrait(columns.get("trait"));
 		PopUpAddSequenceAccession popupSeq = createLitPage.clickOnAddSequence();
-		createLitPage = popupSeq.addSequenceName(columns.get("sequence"));
+		createLitPage = popupSeq.addSequenceName(columns.get("addSequence"));
 		gfPage = createLitPage.clickSave();
 
 		return gfPage;
